@@ -1,0 +1,18 @@
+<template name="codeItem">
+  <tr>
+    <td>
+      <input class="form-control {{editItem 'edit'}}" id="mainCode" name="mainCode" type="text" value="{{mainCode}}">
+      <span class="{{editItem 'view'}} mainCodes">{{mainCode}}</span>
+    </td>
+    <td>
+      <input class="form-control {{editItem 'edit'}}" id="description" name="description" type="text" value="{{description}}">
+      <span class="{{editItem 'view'}} descriptions">{{description}}</span>
+    </td>
+    <td>
+      <span class="hide" id="referenceValueId" name="referenceValueId">{{_id}}</span>
+      <button class="btn btn-xs pull-right btn-danger btnCancelEdit {{editItem 'edit'}}" data-toggle="tooltip" title="Cancel"><span class="glyphicon glyphicon-remove"></span></button>
+      <button class="btn btn-xs pull-right btn-success btnSaveEdit {{editItem 'edit'}}" data-toggle="tooltip" title="Save"><span class="glyphicon glyphicon-ok"></span></button>
+      <button class="btn btn-xs pull-right btn-warning btnEditItem {{editItem 'view'}}" data-toggle="tooltip" title="Edit"><span class="glyphicon glyphicon-pencil"></span></button>
+    </td>
+  </tr>
+</template>

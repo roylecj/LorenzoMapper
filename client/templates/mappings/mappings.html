@@ -1,0 +1,52 @@
+<template name="mappings">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <div class="btn-toolbar">
+        Domains
+        <button class="btn btn-xs btnFilter {{filterState}} pull-right"><span class="glyphicon glyphicon-search"></span> Filter</button>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div class="table-responsive">
+        <table class="table table-hover table-striped">
+          <thead>
+            <tr>
+              <th class="domainCodeColumn">
+                Domain Code
+                {{#if sortColumn 'DOMAIN'}}
+                  <span class="glyphicon {{sortOrder}}"></span>
+                {{/if}}
+              </th>
+              <th class="descriptionColumn">
+                Description
+                {{#if sortColumn 'DESCRIPTION'}}
+                  <span class="glyphicon {{sortOrder}}"></span>
+                {{/if}}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+
+            {{#if isFiltered}}
+              <tr>
+                <td>
+                  <input class="form-control" id="filterDomainCode" name="filterDomainCode" type="text">
+                </td>
+                <td>
+                  <input class="form-control" id="filterDescription" name="filterDescription" type="text">
+                </td>
+              </tr>
+            {{/if}}
+
+
+          {{#each valueDomain}}
+            {{> valueDomainItem}}
+          {{/each}}
+
+        </tbody>
+        </table>
+    </div>
+    </div>
+  </div>
+
+</template>

@@ -1,0 +1,55 @@
+<template name="codeList">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <div class="btn-toolbar">
+        <a class="btn btn-xs btn-default" href="{{pathFor 'mappings'}}">Domains</a>
+         / Reference Values ({{domainCode}})
+        <button class="btn btn-xs btnFilter {{filterState}} pull-right"><span class="glyphicon glyphicon-search"></span> Filter</button>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div class="table-responsive">
+        <table class="table table-hover table-striped">
+          <thead>
+            <tr>
+              <th class="referenceCodeColumn">
+                Code
+                {{#if sortColumn 'mainCode'}}
+                  <span class="glyphicon {{sortOrder}}"></span>
+                {{/if}}
+              </th>
+              <th class="descriptionColumn">
+                Description
+                {{#if sortColumn 'description'}}
+                  <span class="glyphicon {{sortOrder}}"></span>
+                {{/if}}
+              </th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+
+          {{#if isFiltered}}
+          <tr>
+            <td>
+              <input class="form-control filterMainCode" id="filterMainCode" name="filterMainCode" type="text" value="{{currentFilterMainCode}}">
+            </td>
+            <td>
+              <input class="form-control filterDescription" id="filterDescription" name="filterDescription" type="text" value="{{currentFilterDescription}}">
+            </td>
+            <td></td>
+          </tr>
+          {{/if}}
+
+          {{#each codeItems}}
+            {{> codeItem}}
+          {{/each}}
+
+        </tbody>
+        </table>
+    </div>
+    </div>
+  </div>
+
+
+</template>

@@ -13,3 +13,11 @@ Meteor.publish('referenceValues', function () {
 Meteor.publish("userSession", function() {
   return UserSession.find({});
 })
+
+Meteor.publish("temporaryData", function() {
+  return TemporaryData.find({});
+});
+
+Meteor.publish("letterList", function() {
+  return LetterList.find({});
+})

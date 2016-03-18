@@ -1,3 +1,4 @@
+
 Accounts.ui.config({
   passwordSignupFields: 'USERNAME_ONLY'
 });
@@ -5,6 +6,43 @@ Accounts.ui.config({
 Template.login.onCreated(function() {
     Session.set('signedIn', false);
 });
+
+
+loadDomainsIntoCollection = function (sessionId) {
+  parser = new DOMParser();
+
+  resultDoc = TemporaryData.findOne({userId: sessionId});
+  xmlResult = resultDoc.xmlData;
+
+  xmlDoc=parser.parseFromString(xmlResult,"application/xml");
+
+  var procList = "";
+  // debugger
+
+
+  var processItems = xmlDoc.getElementsByTagName ("domainItem");
+
+  console.log("processItems.length="+ processItems.length);
+  for (i = 0; i < processItems.length; i++) {
+
+    var oid = processItems[i].getAttribute("oid");
+    var domainCode = processItems[i].getAttribute("domainCode");
+    var domainDescription = processItems[i].getAttribute("domainDescription");
+
+// console.log(startingLetterCode);
+
+    if (ValueDomains.find({
+        lorenzoOID: oid,
+        domainCode: domainCode,
+        description: domainDescription}).count() === 0) {
+
+//          console.log("loading domain " + domainCode);
+
+            Meteor.call('createDomain', oid, domainCode, description);
+        }
+  }
+
+};
 
 Template.login.events({
   'submit form': function(e) {
@@ -29,14 +67,20 @@ Template.login.events({
 
         Meteor.call('createUserSession', userId, function(eInternal, r) {
             Session.set("sessionId", r);
+
+            Session.set('signedIn', true);
+
+            Meteor.call("loadValueDomains", Session.get('sessionId'), function (e, r) {
+              loadDomainsIntoCollection(Session.get("sessionId"));
+            });
         });
 
         if (!e) {
-          Session.set('signedIn', true);
           Router.go('mappings');
         } else {
           sAlert.error('Error logging in: ' + e.reason);
         }
+
     });
   }
 })

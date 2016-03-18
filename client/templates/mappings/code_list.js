@@ -15,6 +15,10 @@ Template.codeList.helpers({
   },
   codeItems: function() {
 
+    console.log("codeItems for domain-" + this.lorenzoOID);
+
+    // return ReferenceValues.find({userId: Session.get("sessionId"), valueDomainId: this.lorenzoOID});
+
     var sortOrder;
     var sortQueryString = {};
 
@@ -31,26 +35,26 @@ Template.codeList.helpers({
       if (descriptionSearch) {
         return ReferenceValues.find({
           userId: Session.get('sessionId'),
-          valueDomainId: this._id,
+          valueDomainId: this.lorenzoOID,
           mainCode: {$regex: mainCodeSearch, $options: 'i'},
           description: {$regex: descriptionSearch, $options: 'i'}},
         {sort: {sortQuery}});
       } else {
         return ReferenceValues.find({
           userId: Session.get('sessionId'),
-          valueDomainId: this._id,
+          valueDomainId: this.lorenzoOID,
           mainCode: {$regex: mainCodeSearch, $options: 'i'}},
         {sort: sortQuery} );
       }
     } else {
       if (descriptionSearch) {
         return ReferenceValues.find({userId: Session.get('sessionId'),
-          valueDomainId: this._id,
+          valueDomainId: this.lorenzoOID,
           description: {$regex: descriptionSearch, $options: 'i'}},
         {sort: {sortQuery}});
       } else {
         return ReferenceValues.find({userId: Session.get('sessionId'),
-          valueDomainId: this._id},{sort: {sortQuery}});
+          valueDomainId: this.lorenzoOID},{sort: {sortQuery}});
       }
     }
   },

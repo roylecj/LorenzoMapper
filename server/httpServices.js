@@ -4,12 +4,11 @@ Meteor.methods({
     callViaduct: function (url) {
       this.unblock();
 
+      console.log("url=" + url);
+
       try {
-        var result = HTTP.call("GET", url,
-        {
-          followRedirects: true
-        })
-        console.log(result.content);
+        var result = HTTP.call("GET", url);
+        // console.log(result.content);
 
         return result.content;
       } catch (e) {

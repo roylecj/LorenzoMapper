@@ -4,6 +4,11 @@
       <div class="btn-toolbar">
         Domains
         <button class="btn btn-xs btnFilter {{filterState}} pull-right"><span class="glyphicon glyphicon-search"></span> Filter</button>
+        <div class="{{showLetters}}">
+          {{#each letterList}}
+            {{> letterItem}}
+          {{/each}}
+        </div>
       </div>
     </div>
     <div class="panel-body">

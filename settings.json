@@ -1,0 +1,12 @@
+{
+  "database": {
+    "server"   : "10.1.1.69",
+    "database" : "lorenzo",
+    "user"     : "croyle",
+    "password" : "08board",
+    "options"  : {
+      "useUTC"     : false,
+      "appName"    : "LORENZOMapper"
+    }
+  }
+}

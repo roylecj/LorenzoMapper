@@ -1,31 +1,36 @@
-
 Template.mappings.onCreated(function() {
   // Check to see if this user has a set of domains recorded.
 
   Session.setDefault("sortOrder", "ASC");
   Session.setDefault("sortColumn", "DOMAIN");
   Session.setDefault("isFiltered", false);
-
-  Meteor.call('updateUserSession', Session.get('sessionId'));
-
-  /// 1. Clear out value domains
-
-  Session.set("currentStatus", "Clearing Cached Values");
-  Meteor.call("clearValueDomainCache", Session.get('sessionId'), function(e) {
-    Session.set("currentStatus", "Loading Domains");
-    Meteor.call("loadValueDomains", Session.get('sessionId'));
-
-    Session.set("currentStatus", "");
-  });
+  Session.setDefault("startingLetter", "A");
 });
 
 Template.mappings.helpers({
-  valueDomain: function() {
-
-    if (Session.get("sortOrder") === "ASC") {
-        return ValueDomains.find({userId: Session.get('sessionId')}, {sort: {domainCode: 1}})
+  showLetters: function() {
+    if (Session.get("isFiltered")) {
+      return "hide"
     } else {
-        return ValueDomains.find({userId: Session.get('sessionId')}, {sort: {domainCode: -1}})
+      return ""
+    };
+  },
+  letterList: function() {
+    return LetterList.find().fetch();
+  },
+  valueDomain: function() {
+    if (Session.get("sortOrder") === "ASC") {
+      if (Session.get("sortColumn") === "DOMAIN") {
+        return ValueDomains.find({startingCode: Session.get("startingLetter")}, {sort: {domainCode: 1}});
+      } else {
+        return ValueDomains.find({startingLetterDescription: Session.get("startingLetter")}, {sort: {domainDescription: 1}});
+      }
+    } else {
+      if (Session.get("sortColumn") === "DOMAIN") {
+        return ValueDomains.find({startingCode: Session.get("startingLetter")}, {sort: {domainCode: -1}});
+      } else {
+        return ValueDomains.find({startingLetterDescription: Session.get("startingLetter")}, {sort: {domainDescription: -1}});
+      }
     }
   },
   isFiltered: function() {
@@ -57,7 +62,6 @@ Template.mappings.helpers({
 
 Template.mappings.events({
   'click .domainCodeColumn': function(e, t) {
-    Meteor.call('updateUserSession', Session.get('sessionId'));
     Session.set('sortColumn', 'DOMAIN');
     if (Session.get('sortOrder') === "ASC") {
       Session.set('sortOrder', 'DESC');
@@ -66,7 +70,6 @@ Template.mappings.events({
     }
   },
   'click .descriptionColumn': function(e, t) {
-    Meteor.call('updateUserSession', Session.get('sessionId'));
     Session.set('sortColumn', 'DESCRIPTION');
     if (Session.get('sortOrder') === "ASC") {
       Session.set('sortOrder', 'DESC');
@@ -75,7 +78,6 @@ Template.mappings.events({
     }
   },
   'click .btnFilter': function(e, t) {
-    Meteor.call('updateUserSession', Session.get('sessionId'));
     Session.set("isFiltered", ! Session.get('isFiltered'));
   }
 });
